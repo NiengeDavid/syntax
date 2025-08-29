@@ -42,12 +42,16 @@ export default function SplitContent({
           noGap ? "px-10" : undefined
         )}
       >
-        {tagLine && <TagLine title={tagLine} element="h2" />}
+        {tagLine && (
+          <TagLine title={tagLine} element="h2" className="text-sm" />
+        )}
         {title &&
           createElement(
             tagLine ? "h3" : "h2",
             {
-              className: cn("my-4 font-semibold leading-[1.2]"),
+              className: cn(
+                "w-32 md:w-48 my-4 mb-10 md:mb-20 font-semibold leading-[1.2] "
+              ),
             },
             title
           )}

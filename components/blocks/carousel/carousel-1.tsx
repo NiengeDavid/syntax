@@ -19,7 +19,7 @@ const CAROUSEL_SIZES = {
 const IMAGE_SIZES = {
   one: "h-[30rem] sm:h-[40rem] lg:h-[45rem] xl:h-[50rem] 2xl:h-[55rem]",
   two: "h-[30rem] md:h-[25rem] lg:h-[35rem] xl:h-[40rem] 2xl:h-[45rem]",
-  three: "h-[30rem] md:h-[25rem] xl:h-[30rem] 2xl:h-[35rem]",
+  three: "h-[30rem] md:h-[30rem] xl:h-[35rem] 2xl:h-[40rem]",
 } as const;
 
 type CarouselSize = keyof typeof CAROUSEL_SIZES;

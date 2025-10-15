@@ -32,7 +32,7 @@ export default function Hero1({
               {title}
             </h2>
           )}
-          {body && (
+          {/* {body && (
             <div className="text-lg mt-6 animate-fade-up [animation-delay:300ms] opacity-0">
               <PortableTextRenderer value={body} />
             </div>
@@ -55,20 +55,13 @@ export default function Hero1({
                 </Button>
               ))}
             </div>
-          )}
+          )} */}
         </div>
         <div className="flex flex-col justify-center">
-          {image && image.asset?._id && (
-            <Image
-              className="rounded-xl animate-fade-up [animation-delay:500ms] opacity-0"
-              src={urlFor(image).url()}
-              alt={image.alt || ""}
-              width={image.asset?.metadata?.dimensions?.width || 800}
-              height={image.asset?.metadata?.dimensions?.height || 800}
-              placeholder={image?.asset?.metadata?.lqip ? "blur" : undefined}
-              blurDataURL={image?.asset?.metadata?.lqip || ""}
-              quality={100}
-            />
+          {body && (
+            <div className="text-lg mt-6 animate-fade-up [animation-delay:300ms] opacity-0">
+              <PortableTextRenderer value={body} />
+            </div>
           )}
         </div>
       </div>

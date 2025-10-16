@@ -17,10 +17,23 @@ export default function Hero1({
   body,
   image,
   links,
+  works,
 }: Hero1Props) {
+  
+  if (!works || works.length === 0) return null;
+
+  // First work
+  const [first, ...rest] = works;
+
+  // Group the rest into pairs
+  const pairs: (typeof works)[] = [];
+  for (let i = 0; i < rest.length; i += 2) {
+    pairs.push(rest.slice(i, i + 2));
+  }
+
   return (
     <div className="container dark:bg-background py-20 lg:pt-40">
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-10">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-2 lg:gap-12">
         <div className="flex flex-col justify-center">
           {tagLine && (
             <h1 className="leading-[0] font-sans animate-fade-up [animation-delay:100ms] opacity-0">
@@ -32,30 +45,6 @@ export default function Hero1({
               {title}
             </h2>
           )}
-          {/* {body && (
-            <div className="text-lg mt-6 animate-fade-up [animation-delay:300ms] opacity-0">
-              <PortableTextRenderer value={body} />
-            </div>
-          )}
-          {links && links.length > 0 && (
-            <div className="mt-10 flex flex-wrap gap-4 animate-fade-up [animation-delay:400ms] opacity-0">
-              {links.map((link) => (
-                <Button
-                  key={link.title}
-                  variant={stegaClean(link?.buttonVariant)}
-                  asChild
-                >
-                  <Link
-                    href={link.href || "#"}
-                    target={link.target ? "_blank" : undefined}
-                    rel={link.target ? "noopener" : undefined}
-                  >
-                    {link.title}
-                  </Link>
-                </Button>
-              ))}
-            </div>
-          )} */}
         </div>
         <div className="flex flex-col justify-center">
           {body && (
@@ -63,6 +52,106 @@ export default function Hero1({
               <PortableTextRenderer value={body} />
             </div>
           )}
+        </div>
+      </div>
+      <div className="py-12">
+        {/* First Featured Work */}
+        <div className="mb-8">
+          <Link
+            href={`/works/${first?.slug?.current}`}
+            className="group block relative"
+          >
+            <div className="relative w-full overflow-hidden shadow-lg bg-neutral-100 dark:bg-neutral-800">
+              <Image
+                src={first?.coverImage ? urlFor(first.coverImage).url() : ""}
+                alt={first?.coverImage?.alt ?? first.title ?? ""}
+                className="object-cover transition-transform group-hover:scale-105"
+                width={
+                  first?.coverImage?.asset?.metadata?.dimensions?.width || 800
+                }
+                height={
+                  first?.coverImage?.asset?.metadata?.dimensions?.height || 960
+                }
+                placeholder={
+                  first?.coverImage?.asset?.metadata?.lqip ? "blur" : undefined
+                }
+                blurDataURL={first?.coverImage?.asset?.metadata?.lqip || ""}
+                quality={100}
+              />
+            </div>
+            <h2 className="mt-4 text-2xl md:text-3xl font-semibold text-neutral-900 dark:text-neutral-50 text-left group-hover:underline transition-all">
+              {first.title}
+            </h2>
+            <p className="mt-2 text-neutral-700 dark:text-neutral-300 text-left">
+              {first.brief}
+            </p>
+            {/* All clickable */}
+            <span
+              className="absolute inset-0"
+              aria-label={`View ${first.title}`}
+            ></span>
+          </Link>
+        </div>
+        {/* Rest of Featured Works in pairs */}
+        <div className="flex flex-col gap-8">
+          {pairs.map((pair, idx) => (
+            <div key={idx} className="flex flex-col md:flex-row gap-8">
+              {pair.map((work, i) => (
+                <Link
+                  href={`/works/${work?.slug?.current}`}
+                  key={work?.slug?.current}
+                  className="group flex-1 block relative"
+                >
+                  <div className="relative w-full overflow-hidden shadow-md bg-neutral-100 dark:bg-neutral-800">
+                    <Image
+                      src={
+                        first?.coverImage ? urlFor(first.coverImage).url() : ""
+                      }
+                      alt={first?.coverImage?.alt ?? first.title ?? ""}
+                      className="object-cover transition-transform group-hover:scale-105"
+                      width={
+                        first?.coverImage?.asset?.metadata?.dimensions?.width ||
+                        800
+                      }
+                      height={
+                        first?.coverImage?.asset?.metadata?.dimensions
+                          ?.height || 800
+                      }
+                      placeholder={
+                        first?.coverImage?.asset?.metadata?.lqip
+                          ? "blur"
+                          : undefined
+                      }
+                      blurDataURL={
+                        first?.coverImage?.asset?.metadata?.lqip || ""
+                      }
+                      quality={100}
+                    />
+                  </div>
+                  <h3 className="mt-4 text-xl font-semibold text-neutral-900 dark:text-neutral-50 text-left group-hover:underline transition-all">
+                    {work.title}
+                  </h3>
+                  <p className="mt-2 text-neutral-700 dark:text-neutral-300 text-left">
+                    {work.brief}
+                  </p>
+                  <span
+                    className="absolute inset-0"
+                    aria-label={`View ${work?.title}`}
+                  ></span>
+                </Link>
+              ))}
+              {/* If odd number, fill space on desktop */}
+              {pair.length === 1 && <div className="hidden md:block flex-1" />}
+            </div>
+          ))}
+        </div>
+        <div className="mt-8 text-right">
+          <Link
+            href="/works"
+            className="text-lg font-medium hover:underline"
+          >
+            View All
+          </Link>
         </div>
       </div>
     </div>

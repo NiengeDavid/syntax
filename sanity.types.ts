@@ -906,6 +906,24 @@ export type Hero1 = {
       _key: string;
     } & Link
   >;
+  works?: Array<{
+    title?: string;
+    slug?: Slug;
+    brief?: string;
+    coverImage?: {
+      asset?: {
+        _ref: string;
+        _type: "reference";
+        _weak?: boolean;
+        [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+      };
+      media?: unknown;
+      hotspot?: SanityImageHotspot;
+      crop?: SanityImageCrop;
+      alt?: string;
+      _type: "image";
+    };
+  }>;
 };
 
 export type SectionPadding = {
@@ -2089,6 +2107,30 @@ export type PAGE_QUERYResult = {
           target?: boolean;
           buttonVariant?: ButtonVariant;
         }> | null;
+        works: Array<{
+          title: string | null;
+          slug: Slug | null;
+          brief: string | null;
+          coverImage: {
+            asset: {
+              _id: string;
+              url: string | null;
+              mimeType: string | null;
+              metadata: {
+                lqip: string | null;
+                dimensions: {
+                  width: number | null;
+                  height: number | null;
+                } | null;
+              } | null;
+            } | null;
+            media?: unknown;
+            hotspot?: SanityImageHotspot;
+            crop?: SanityImageCrop;
+            alt?: string;
+            _type: "image";
+          } | null;
+        }> | null;
       }
     | {
         _type: "hero-2";
@@ -2860,6 +2902,102 @@ export type POSTS_QUERYResult = Array<{
 // Variable: POSTS_SLUGS_QUERY
 // Query: *[_type == "post" && defined(slug)]{slug}
 export type POSTS_SLUGS_QUERYResult = Array<{
+  slug: Slug | null;
+}>;
+
+export type FEATURED_WORK_QUERYResult = Array<{
+  title: string | null;
+  slug: Slug | null;
+  excerpt: string | null;
+  brief: string | null;
+  coverImage: {
+    asset: {
+      _id: string;
+      url: string | null;
+      mimeType: string | null;
+      metadata: {
+        lqip: string | null;
+        dimensions: {
+          width: number | null;
+          height: number | null;
+        } | null;
+      } | null;
+    } | null;
+    media?: unknown;
+    hotspot?: SanityImageHotspot;
+    crop?: SanityImageCrop;
+    alt?: string;
+    _type: "image";
+  } | null;
+  categories: Array<{
+    _id: string;
+    title: string | null;
+  }> | null;
+  images: Array<{
+    asset: {
+      _id: string;
+      url: string | null;
+      mimeType: string | null;
+      metadata: {
+        lqip: string | null;
+        dimensions: {
+          width: number | null;
+          height: number | null;
+        } | null;
+      } | null;
+    } | null;
+    media?: unknown;
+    hotspot?: SanityImageHotspot;
+    crop?: SanityImageCrop;
+    alt?: string;
+    _type: "image";
+    _key: string;
+  }> | null;
+  _createdAt: string;
+  _updatedAt: string;
+  meta_title: string | null;
+  meta_description: string | null;
+  noindex: boolean | null;
+  ogImage: {
+    asset: {
+      _id: string;
+      url: string | null;
+      metadata: {
+        dimensions: {
+          width: number | null;
+          height: number | null;
+        } | null;
+      } | null;
+    } | null;
+  };
+}>;
+
+export type FEATURED_WORKS_QUERYResult = Array<{
+  title: string | null;
+  slug: Slug | null;
+  brief: string | null;
+  coverImage: {
+    asset: {
+      _id: string;
+      url: string | null;
+      mimeType: string | null;
+      metadata: {
+        lqip: string | null;
+        dimensions: {
+          width: number | null;
+          height: number | null;
+        } | null;
+      } | null;
+    } | null;
+    media?: unknown;
+    hotspot?: SanityImageHotspot;
+    crop?: SanityImageCrop;
+    alt?: string;
+    _type: "image";
+  } | null;
+}>;
+
+export type FEATURED_WORKS_SLUGS_QUERYResult = Array<{
   slug: Slug | null;
 }>;
 

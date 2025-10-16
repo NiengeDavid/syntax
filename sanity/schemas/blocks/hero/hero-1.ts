@@ -37,6 +37,12 @@ export default defineType({
       of: [{ type: "link" }],
       validation: (rule) => rule.max(2),
     }),
+    defineField({
+      name: "works",
+      type: "array",
+      of: [{ type: "reference", to: [{ type: "featuredWorks" }] }],
+      validation: (rule) => rule.max(3),
+    }),
   ],
   preview: {
     select: {

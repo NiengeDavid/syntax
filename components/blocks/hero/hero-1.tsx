@@ -147,7 +147,7 @@ export default function Hero1({
         </div>
         <div className="mt-8 text-right">
           <Link
-            href="/works"
+            href="/work"
             className="text-lg font-medium hover:underline"
           >
             View All

@@ -8,6 +8,10 @@ import {
   POSTS_SLUGS_QUERY,
 } from "@/sanity/queries/post";
 import {
+  WORK_QUERY,
+  
+}
+import {
   PAGE_QUERYResult,
   PAGES_SLUGS_QUERYResult,
   POST_QUERYResult,

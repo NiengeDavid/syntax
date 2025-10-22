@@ -34,7 +34,7 @@ export default function WorkCard({ works }: WorkCardProps) {
 
   // Safe type guard for work properties
   const getWorkHref = (work: NonNullable<WorkType>) => {
-    return work?.slug?.current ? `/works/${work.slug.current}` : "#";
+    return work?.slug?.current ? `/work/${work.slug.current}` : "#";
   };
 
   const getImageSrc = (work: NonNullable<WorkType>) => {

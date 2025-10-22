@@ -2,15 +2,19 @@ import { sanityFetch } from "@/sanity/lib/live";
 import { PAGE_QUERY, PAGES_SLUGS_QUERY } from "@/sanity/queries/page";
 import { NAVIGATION_QUERY } from "@/sanity/queries/navigation";
 import { SETTINGS_QUERY } from "@/sanity/queries/settings";
+
 import {
   POST_QUERY,
   POSTS_QUERY,
   POSTS_SLUGS_QUERY,
 } from "@/sanity/queries/post";
+
 import {
   WORK_QUERY,
-  
-}
+  WORKS_QUERY,
+  WORKS_SLUGS_QUERY,
+} from "@/sanity/queries/work";
+
 import {
   PAGE_QUERYResult,
   PAGES_SLUGS_QUERYResult,
@@ -19,6 +23,9 @@ import {
   POSTS_SLUGS_QUERYResult,
   NAVIGATION_QUERYResult,
   SETTINGS_QUERYResult,
+  WORK_QUERYResult,
+  WORKS_QUERYResult,
+  WORKS_SLUGS_QUERYResult,
 } from "@/sanity.types";
 
 export const fetchSanityPageBySlug = async ({
@@ -70,6 +77,38 @@ export const fetchSanityPostsStaticParams =
   async (): Promise<POSTS_SLUGS_QUERYResult> => {
     const { data } = await sanityFetch({
       query: POSTS_SLUGS_QUERY,
+      perspective: "published",
+      stega: false,
+    });
+
+    return data;
+  };
+
+export const fetchSanityWorks = async (): Promise<WORKS_QUERYResult> => {
+  const { data } = await sanityFetch({
+    query: WORKS_QUERY,
+  });
+
+  return data;
+};
+
+export const fetchSanityWorkBySlug = async ({
+  slug,
+}: {
+  slug: string;
+}): Promise<WORK_QUERYResult> => {
+  const { data } = await sanityFetch({
+    query: WORK_QUERY,
+    params: { slug },
+  });
+
+  return data;
+};
+
+export const fetchSanityWorksStaticParams =
+  async (): Promise<WORKS_SLUGS_QUERYResult> => {
+    const { data } = await sanityFetch({
+      query: WORKS_SLUGS_QUERY,
       perspective: "published",
       stega: false,
     });

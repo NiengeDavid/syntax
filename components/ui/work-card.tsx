@@ -51,7 +51,7 @@ export default function WorkCard({ works }: WorkCardProps) {
       {first && (
         <div className="mb-8">
           <Link href={getWorkHref(first)} className="group block relative">
-            <div className="relative w-full overflow-hidden shadow-lg bg-neutral-100 dark:bg-neutral-800">
+            <div className="relative w-full overflow-hidden shadow-lg rounded-lg bg-neutral-100 dark:bg-neutral-800">
               {first.coverImage && (
                 <Image
                   src={getImageSrc(first)}
@@ -96,7 +96,7 @@ export default function WorkCard({ works }: WorkCardProps) {
                 key={index}
                 className="group flex-1 block relative"
               >
-                <div className="relative w-full overflow-hidden shadow-md bg-neutral-100 dark:bg-neutral-800">
+                <div className="relative w-full overflow-hidden shadow-md rounded-lg bg-neutral-100 dark:bg-neutral-800">
                   {work.coverImage && (
                     <Image
                       src={getImageSrc(work)}

@@ -7,6 +7,7 @@ export const WORK_QUERY = groq`*[_type == "featuredWorks" && slug.current == $sl
     coverImage{
       ${imageQuery}
     },
+    website,
    excerpt,
    brief,
    categories[]->{

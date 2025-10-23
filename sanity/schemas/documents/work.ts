@@ -41,6 +41,16 @@ export default defineType({
       validation: (Rule) => Rule.required(),
     }),
     defineField({
+      name: "website",
+      title: "Website Link",
+      type: "url",
+      group: "content",
+      validation: (Rule) =>
+        Rule.uri({
+          scheme: ["http", "https"],
+        }),
+    }),
+    defineField({
       name: "excerpt",
       title: "Excerpt",
       type: "text",

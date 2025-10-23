@@ -85,6 +85,7 @@ export type WORK_QUERYResult = {
     alt?: string;
     _type: "image";
   };
+  website: string | null;
   excerpt: string | null;
   brief: string | null;
   categories: Array<{
@@ -2908,6 +2909,7 @@ export type POSTS_SLUGS_QUERYResult = Array<{
 export type FEATURED_WORK_QUERYResult = Array<{
   title: string | null;
   slug: Slug | null;
+  website: string | null;
   excerpt: string | null;
   brief: string | null;
   coverImage: {

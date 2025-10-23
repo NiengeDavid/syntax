@@ -111,12 +111,28 @@ export default async function WorkPage({ params }: PageProps) {
           </div>
         )}
 
-        {/* Excerpt */}
-        {excerpt && (
-          <p className="text-lg text-neutral-700 dark:text-neutral-300 leading-relaxed">
-            {excerpt}
-          </p>
-        )}
+        <div className="w-full">
+          {/* Excerpt */}
+          {excerpt && (
+            <p className="text-lg text-neutral-700 dark:text-neutral-300 leading-relaxed">
+              {excerpt}
+            </p>
+          )}
+
+          {/* Website Link */}
+          {work.website && (
+            <Badge variant="secondary" className="mt-4">
+              <a
+                href={work.website}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-lg hover:text-black/50 dark:hover:text-white/50 transition-colors"
+              >
+               visit website &#8599; {/* {work.website.replace(/^https?:\/\/(www\.)?/, "")} */}
+              </a>
+            </Badge>
+          )}
+        </div>
       </div>
 
       {/* T-Layout Image Gallery */}

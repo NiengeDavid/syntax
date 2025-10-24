@@ -19,7 +19,7 @@ export default async function Header() {
           <DesktopNav navigation={navigation} />
           <ModeToggle />
         </div>
-        <div className="flex items-center xl:hidden">
+        <div className="flex gap-1 items-center xl:hidden">
           <ContactDrawer />
           <ModeToggle />
           <MobileNav navigation={navigation} settings={settings} />

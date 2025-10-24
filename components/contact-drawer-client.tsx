@@ -63,7 +63,7 @@ export function ContactDrawerClient({
     if (contactInfo?.whatsapp) {
       const message = encodeURIComponent(contactInfo?.whatsappMessage || "");
       window.open(
-        `https://wa.me/${contactInfo.whatsapp.replace(
+        `https://wa.me/${contactInfo?.whatsapp?.replace(
           /\D/g,
           ""
         )}?text=${message}`,
@@ -77,11 +77,11 @@ export function ContactDrawerClient({
       <SheetTrigger asChild>
         <Button
           aria-label="Open Contact Menu"
-          variant="ghost"
+          variant="outline"
           className="w-fit p-5 cursor-pointer focus-visible:ring-1 focus-visible:ring-offset-1"
         >
           <Phone className="dark:text-white" />
-          <span className="transition-colors hover:text-foreground/80 text-foreground/60 text-sm h-auto hover:bg-transparent">
+          <span>
             Contact us
           </span>
         </Button>

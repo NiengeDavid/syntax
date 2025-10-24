@@ -2,6 +2,7 @@ import Link from "next/link";
 import { buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { NAVIGATION_QUERYResult } from "@/sanity.types";
+import { ContactDrawer } from "@/components/contact-drawer";
 
 type SanityLink = NonNullable<NAVIGATION_QUERYResult[0]["links"]>[number];
 
@@ -29,6 +30,9 @@ export default function DesktopNav({
           {navItem.title}
         </Link>
       ))}
+      <div>
+        <ContactDrawer />
+      </div>
     </div>
   );
 }

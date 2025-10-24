@@ -15,6 +15,9 @@ import {
   WORKS_SLUGS_QUERY,
 } from "@/sanity/queries/work";
 
+import { CONTACT_QUERY } from "@/sanity/queries/contact";
+import { CONTACT_QUERYResult } from "@/sanity.types";
+
 import {
   PAGE_QUERYResult,
   PAGES_SLUGS_QUERYResult,
@@ -128,6 +131,14 @@ export const fetchSanityNavigation =
 export const fetchSanitySettings = async (): Promise<SETTINGS_QUERYResult> => {
   const { data } = await sanityFetch({
     query: SETTINGS_QUERY,
+  });
+
+  return data;
+};
+
+export const fetchSanityContact = async (): Promise<CONTACT_QUERYResult> => {
+  const { data } = await sanityFetch({
+    query: CONTACT_QUERY,
   });
 
   return data;

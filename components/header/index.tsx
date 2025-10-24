@@ -4,6 +4,7 @@ import MobileNav from "@/components/header/mobile-nav";
 import DesktopNav from "@/components/header/desktop-nav";
 import { ModeToggle } from "@/components/menu-toggle";
 import { fetchSanitySettings, fetchSanityNavigation } from "@/sanity/lib/fetch";
+import { ContactDrawer } from "@/components/contact-drawer";
 
 export default async function Header() {
   const settings = await fetchSanitySettings();
@@ -19,6 +20,7 @@ export default async function Header() {
           <ModeToggle />
         </div>
         <div className="flex items-center xl:hidden">
+          <ContactDrawer />
           <ModeToggle />
           <MobileNav navigation={navigation} settings={settings} />
         </div>

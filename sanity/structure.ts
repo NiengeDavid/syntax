@@ -7,7 +7,8 @@ import {
   Quote,
   Menu,
   Settings,
-  Star
+  Star,
+  Phone,
 } from "lucide-react";
 
 export const structure = (S: any, context: any) =>
@@ -61,6 +62,13 @@ export const structure = (S: any, context: any) =>
         type: "featuredWorks",
         title: "Works",
         icon: Star,
+        S,
+        context,
+      }),
+      orderableDocumentListDeskItem({
+        type: "contact",
+        title: "Contact Information",
+        icon: Phone,
         S,
         context,
       }),

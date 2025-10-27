@@ -39,6 +39,8 @@ import timelinesOne from "./schemas/blocks/timeline/timelines-1";
 import cta1 from "./schemas/blocks/cta/cta-1";
 import logoCloud1 from "./schemas/blocks/logo-cloud/logo-cloud-1";
 import faqs from "./schemas/blocks/faqs";
+import quoteSettings from "./schemas/blocks/quote-settings";
+import quoteBlock from "./schemas/blocks/quote-block";
 import newsletter from "./schemas/blocks/forms/newsletter";
 import allPosts from "./schemas/blocks/all-posts";
 
@@ -83,6 +85,8 @@ export const schema: { types: SchemaTypeDefinition[] } = {
     cta1,
     logoCloud1,
     faqs,
+    quoteSettings,
+    quoteBlock,
     newsletter,
     allPosts,
   ],

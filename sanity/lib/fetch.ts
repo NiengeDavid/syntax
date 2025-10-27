@@ -2,6 +2,8 @@ import { sanityFetch } from "@/sanity/lib/live";
 import { PAGE_QUERY, PAGES_SLUGS_QUERY } from "@/sanity/queries/page";
 import { NAVIGATION_QUERY } from "@/sanity/queries/navigation";
 import { SETTINGS_QUERY } from "@/sanity/queries/settings";
+import { QUOTE_SETTINGS_QUERY } from "@/sanity/queries/quote-settings";
+import { CONTACT_QUERY } from "@/sanity/queries/contact";
 
 import {
   POST_QUERY,
@@ -15,9 +17,6 @@ import {
   WORKS_SLUGS_QUERY,
 } from "@/sanity/queries/work";
 
-import { CONTACT_QUERY } from "@/sanity/queries/contact";
-import { CONTACT_QUERYResult } from "@/sanity.types";
-
 import {
   PAGE_QUERYResult,
   PAGES_SLUGS_QUERYResult,
@@ -29,6 +28,8 @@ import {
   WORK_QUERYResult,
   WORKS_QUERYResult,
   WORKS_SLUGS_QUERYResult,
+  CONTACT_QUERYResult,
+  QUOTE_SETTINGS_QUERYResult,
 } from "@/sanity.types";
 
 export const fetchSanityPageBySlug = async ({
@@ -143,3 +144,12 @@ export const fetchSanityContact = async (): Promise<CONTACT_QUERYResult> => {
 
   return data;
 };
+
+export const fetchSanityQuoteSettings =
+  async (): Promise<QUOTE_SETTINGS_QUERYResult> => {
+    const { data } = await sanityFetch({
+      query: QUOTE_SETTINGS_QUERY,
+    });
+
+    return data;
+  };

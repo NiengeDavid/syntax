@@ -12,6 +12,7 @@ import LogoCloud1 from "@/components/blocks/logo-cloud/logo-cloud-1";
 import FAQs from "@/components/blocks/faqs";
 import FormNewsletter from "@/components/blocks/forms/newsletter";
 import AllPosts from "@/components/blocks/all-posts";
+import Quote from "@/components/blocks/quote/index";
 
 type Block = NonNullable<NonNullable<PAGE_QUERYResult>["blocks"]>[number];
 
@@ -29,11 +30,18 @@ const componentMap: {
   "cta-1": Cta1,
   "logo-cloud-1": LogoCloud1,
   faqs: FAQs,
+  "quote-block": Quote,
   "form-newsletter": FormNewsletter,
   "all-posts": AllPosts,
 };
 
 export default function Blocks({ blocks }: { blocks: Block[] }) {
+  // console.log("All blocks:", blocks); // Debug log
+  // console.log(
+  //   "Block types:",
+  //   blocks?.map((b) => b._type)
+  // ); // Debug log
+
   return (
     <>
       {blocks?.map((block) => {

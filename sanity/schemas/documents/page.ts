@@ -50,6 +50,7 @@ export default defineType({
         { type: "cta-1" },
         { type: "logo-cloud-1" },
         { type: "faqs" },
+        { type: "quote-block" },
         { type: "form-newsletter" },
         { type: "all-posts" },
       ],
@@ -100,6 +101,11 @@ export default defineType({
               name: "faqs",
               title: "FAQs",
               of: ["faqs"],
+            },
+            {
+              name: "quote-block",
+              title: "Quote Block",
+              of: ["quote-block"],
             },
             {
               name: "forms",

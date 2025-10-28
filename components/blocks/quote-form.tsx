@@ -1,4 +1,3 @@
-// Client component: shadcn + react-hook-form + zod + realtime calculation
 "use client";
 
 import React, { useMemo, useState } from "react";
@@ -16,8 +15,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { toast } from "sonner";
-import { RadioGroup } from "@/components/ui/radio-group";
-import { cn } from "@/lib/utils";
+import { Separator } from "@/components/ui/separator";
 import { QUOTE_SETTINGS_QUERYResult } from "@/sanity.types";
 import { Spinner } from "../ui/spinner";
 
@@ -29,7 +27,7 @@ const QuoteSchema = z.object({
   deliverable: z.string(),
   timeline: z.string(),
   brandState: z.string().optional(),
-  currency: z.enum(["USD", "NGN"]),
+  currency: z.string(),
   email: z.string().email(),
   notes: z.string().optional(),
 });
@@ -42,6 +40,7 @@ export default function QuoteForm({ settings }: { settings: Settings }) {
   const deliverables = settings?.deliverables ?? [];
   const timelines = settings?.timelines ?? [];
   const baseCurrency = settings?.baseCurrency ?? "USD";
+  const currencyOptions = settings?.currencyOptions ?? ["USD", "NGN"];
   const conversionRates = settings?.conversionRates ?? [
     { from: "USD", to: "NGN", rate: 1300 },
   ];
@@ -56,7 +55,7 @@ export default function QuoteForm({ settings }: { settings: Settings }) {
       deliverable: deliverables[1]?.key ?? "design-build",
       timeline: timelines[0]?.key ?? "standard",
       brandState: "I have no brand",
-      currency: baseCurrency === "USD" ? "USD" : "NGN",
+      currency: baseCurrency,
       email: "",
       notes: "",
     },
@@ -160,6 +159,7 @@ export default function QuoteForm({ settings }: { settings: Settings }) {
         toast.error("Failed to submit quote", {
           description: err || "An error occurred while submitting the quote.",
         });
+        return;
       }
 
       toast.success("Quote sent", {
@@ -168,16 +168,7 @@ export default function QuoteForm({ settings }: { settings: Settings }) {
       });
 
       // reset form
-      form.reset({
-        pages: 1,
-        category: categories[0]?.title ?? "Landing",
-        deliverable: deliverables[1]?.key ?? "design-build",
-        timeline: timelines[0]?.key ?? "standard",
-        brandState: "I have no brand",
-        currency: baseCurrency === "USD" ? "USD" : "NGN",
-        email: "",
-        notes: "",
-      });
+      form.reset();
     } catch (err) {
       console.error(err);
       toast.error("Could not send quote", {
@@ -189,93 +180,157 @@ export default function QuoteForm({ settings }: { settings: Settings }) {
   }
 
   return (
-    <div className="bg-white dark:bg-background rounded-lg p-6 shadow-sm">
-      <form
-        onSubmit={form.handleSubmit(onSubmit)}
-        className="grid grid-cols-1 gap-6"
-      >
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <div>
-            <Label>
-              How many pages?{" "}
-              <span className="text-xs text-neutral-400">
-                excluding homepage
-              </span>
-            </Label>
-            <Input
-              type="number"
-              min={1}
-              {...form.register("pages", { valueAsNumber: true })}
-            />
-            {form.formState.errors.pages && (
-              <p className="text-xs text-red-500 mt-1">
-                {form.formState.errors.pages.message}
-              </p>
-            )}
-          </div>
-
-          <div>
-            <Label>Category</Label>
-            <Select
-              onValueChange={(val) => form.setValue("category", val)}
-              defaultValue={form.getValues("category")}
-            >
-              <SelectTrigger className="w-full">
-                <SelectValue placeholder="Select category" />
-              </SelectTrigger>
-              <SelectContent>
-                {categories.map((c: any) => (
-                  <SelectItem key={c.title} value={c.title}>
-                    {c.title}
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
-          </div>
-        </div>
-
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <div>
-            <Label>Deliverable</Label>
-            <Select
-              onValueChange={(val) => form.setValue("deliverable", val)}
-              defaultValue={form.getValues("deliverable")}
-            >
-              <SelectTrigger className="w-full">
-                <SelectValue />
-              </SelectTrigger>
-              <SelectContent>
-                {deliverables.map((d: any) => (
-                  <SelectItem key={d.key} value={d.key}>
-                    {d.label}
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
-          </div>
-
-          <div>
-            <Label>Timeline</Label>
-            <Select
-              onValueChange={(val) => form.setValue("timeline", val)}
-              defaultValue={form.getValues("timeline")}
-            >
-              <SelectTrigger className="w-full">
-                <SelectValue />
-              </SelectTrigger>
-              <SelectContent>
-                {timelines.map((t: any) => (
-                  <SelectItem key={t.key} value={t.key}>
-                    {t.label}
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
-          </div>
-        </div>
-
+    <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+      {/* How many pages */}
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 items-start">
         <div>
-          <Label>State of your brand</Label>
+          <h3 className="text-base font-medium mb-1">How many pages?</h3>
+          <p className="text-sm text-muted-foreground">
+            (Excluding your homepage)
+          </p>
+        </div>
+        <div>
+          <Input
+            type="number"
+            min={1}
+            placeholder="0"
+            {...form.register("pages", { valueAsNumber: true })}
+          />
+          {form.formState.errors.pages && (
+            <p className="text-xs text-red-500 mt-1">
+              {form.formState.errors.pages.message}
+            </p>
+          )}
+        </div>
+      </div>
+
+      <Separator />
+
+      {/* Project Category */}
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 items-start">
+        <div>
+          <h3 className="text-base font-medium mb-1">Project category</h3>
+          <p className="text-sm text-muted-foreground">
+            (Choose the type that best fits your project)
+          </p>
+        </div>
+        <div>
+          <Select
+            onValueChange={(val) => form.setValue("category", val)}
+            defaultValue={form.getValues("category")}
+          >
+            <SelectTrigger className="w-full">
+              <SelectValue />
+            </SelectTrigger>
+            <SelectContent>
+              {categories.map((cat: any) => (
+                <SelectItem key={cat.slug?.current} value={cat.title}>
+                  {cat.title}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+        </div>
+      </div>
+
+      <Separator />
+
+      {/* Choose deliverables */}
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 items-start">
+        <div>
+          <h3 className="text-base font-medium mb-1">Choose deliverables</h3>
+          <p className="text-sm text-muted-foreground">
+            (We offer design handover, or the full design+build)
+          </p>
+        </div>
+        <div>
+          <Select
+            onValueChange={(val) => form.setValue("deliverable", val)}
+            defaultValue={form.getValues("deliverable")}
+          >
+            <SelectTrigger className="w-full">
+              <SelectValue />
+            </SelectTrigger>
+            <SelectContent>
+              {deliverables.map((d: any) => (
+                <SelectItem key={d.key} value={d.key}>
+                  {d.label}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+        </div>
+      </div>
+
+      <Separator />
+
+      {/* Timeline */}
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 items-start">
+        <div>
+          <h3 className="text-base font-medium mb-1">Project timeline</h3>
+          <p className="text-sm text-muted-foreground">
+            (How quickly do you need this delivered?)
+          </p>
+        </div>
+        <div>
+          <Select
+            onValueChange={(val) => form.setValue("timeline", val)}
+            defaultValue={form.getValues("timeline")}
+          >
+            <SelectTrigger className="w-full">
+              <SelectValue />
+            </SelectTrigger>
+            <SelectContent>
+              {timelines.map((t: any) => (
+                <SelectItem key={t.key} value={t.key}>
+                  {t.label}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+        </div>
+      </div>
+
+      <Separator />
+
+      {/* Currency Selection */}
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 items-start">
+        <div>
+          <h3 className="text-base font-medium mb-1">Preferred currency</h3>
+          <p className="text-sm text-muted-foreground">
+            (Select the currency for your quote)
+          </p>
+        </div>
+        <div>
+          <Select
+            onValueChange={(val) => form.setValue("currency", val)}
+            defaultValue={form.getValues("currency")}
+          >
+            <SelectTrigger className="w-full">
+              <SelectValue />
+            </SelectTrigger>
+            <SelectContent>
+              {currencyOptions.map((curr) => (
+                <SelectItem key={curr} value={curr}>
+                  {curr}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+        </div>
+      </div>
+
+      <Separator />
+
+      {/* State of your brand */}
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 items-start">
+        <div>
+          <h3 className="text-base font-medium mb-1">State of your brand</h3>
+          <p className="text-sm text-muted-foreground">
+            (No problem if you aren't fully figuring out the style)
+          </p>
+        </div>
+        <div>
           <Select
             onValueChange={(val) => form.setValue("brandState", val)}
             defaultValue={form.getValues("brandState")}
@@ -294,89 +349,49 @@ export default function QuoteForm({ settings }: { settings: Settings }) {
             </SelectContent>
           </Select>
         </div>
+      </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <div>
-            <Label>Currency</Label>
-            <Select
-              onValueChange={(val) =>
-                form.setValue("currency", val as "USD" | "NGN")
-              }
-              defaultValue={form.getValues("currency")}
-            >
-              <SelectTrigger className="w-full">
-                <SelectValue />
-              </SelectTrigger>
-              <SelectContent>
-                {(settings?.currencyOptions || ["USD", "NGN"]).map(
-                  (c: string) => (
-                    <SelectItem key={c} value={c}>
-                      {c}
-                    </SelectItem>
-                  )
-                )}
-              </SelectContent>
-            </Select>
-            <p className="text-xs text-neutral-400 mt-1">
-              Conversion: 1 {baseCurrency} = {conversion?.rate}{" "}
-              {values?.currency}
-            </p>
-          </div>
+      <Separator />
 
-          <div>
-            <Label>Your email</Label>
-            <Input type="email" {...form.register("email")} />
-            {form.formState.errors.email && (
-              <p className="text-xs text-red-500 mt-1">
-                {form.formState.errors.email.message}
-              </p>
-            )}
-          </div>
-        </div>
-
+      {/* Where shall we send the quote */}
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 items-start">
         <div>
-          <Label>Notes (optional)</Label>
-          <Input {...form.register("notes")} />
+          <h3 className="text-base font-medium mb-1">
+            Where shall we send the quote?
+          </h3>
+          <p className="text-sm text-muted-foreground">
+            (In around two 3-4 mins, tops)
+          </p>
         </div>
+        <div>
+          <Input
+            type="email"
+            placeholder="Email address"
+            {...form.register("email")}
+          />
+          {form.formState.errors.email && (
+            <p className="text-xs text-red-500 mt-1">
+              {form.formState.errors.email.message}
+            </p>
+          )}
+        </div>
+      </div>
 
-        {/* Price preview */}
-        <div className="border-t pt-4">
-          <div className="flex items-baseline justify-between">
-            <div>
-              <p className="text-sm text-neutral-500">Subtotal</p>
-              <p className="text-xs text-neutral-400">
-                Pages: {breakdown.pages} × {breakdown.perPage} (
-                {values.currency})
-              </p>
-            </div>
-            <div className="text-right">
-              <p className="text-xl font-semibold">
-                {values.currency} {Number(breakdown.subtotal).toLocaleString()}
-              </p>
-              <p className="text-sm text-neutral-500">
-                VAT ({vatRate}%): {values.currency}{" "}
-                {Number(breakdown.vat).toLocaleString()}
-              </p>
-              <p className="mt-1 text-lg font-bold">
-                {values.currency} {Number(breakdown.total).toLocaleString()}
-              </p>
-            </div>
-          </div>
-        </div>
+      <Separator />
 
-        <div className="flex justify-end">
-          <Button type="submit" disabled={submitting}>
-            {submitting ? (
-              <>
-                <Spinner className="mr-2" />
-                Loading...
-              </>
-            ) : (
-              "Send me my quote 🡽"
-            )}
-          </Button>
-        </div>
-      </form>
-    </div>
+      {/* Submit button */}
+      <div className="flex justify-end">
+        <Button type="submit" disabled={submitting} size="lg" className="cursor-pointer">
+          {submitting ? (
+            <>
+              <Spinner className="mr-2" />
+              Sending...
+            </>
+          ) : (
+            "Send me my quote 🡽"
+          )}
+        </Button>
+      </div>
+    </form>
   );
 }

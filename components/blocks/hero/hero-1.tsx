@@ -3,6 +3,7 @@ import Link from "next/link";
 import PortableTextRenderer from "@/components/portable-text-renderer";
 import WorkCard from "@/components/ui/work-card";
 import { PAGE_QUERYResult } from "@/sanity.types";
+import { Separator } from "@/components/ui/separator";
 
 type Hero1Props = Extract<
   NonNullable<NonNullable<PAGE_QUERYResult>["blocks"]>[number],
@@ -14,6 +15,7 @@ export default function Hero1({ tagLine, title, body, works }: Hero1Props) {
 
   return (
     <div className="container dark:bg-background py-20 lg:pt-40">
+      <Separator className="mb-12" />
       {/* ---------- HEAD ---------- */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-2 lg:gap-12">
         <div className="flex flex-col justify-center">
